@@ -41,28 +41,31 @@
 			orientFunc : function(){
 				var me = this;
 				var orientation = "";
+				var viewportmeta = document.querySelector('meta[name="viewport"]');
 				// alert(window.orientation);
 				if (window.orientation == 90 || window.orientation == -90) {
-		            //ipad、iphone竖屏；Andriod横屏
-		            if(me.isAndroid())	
-		            	orientation = 'landscape';
-		            if(me.isIos())
+		            //Andriod\ios横屏
+		            if(me.isAndroid()||me.isIos())	
 		            	orientation = 'landscape';
 		        }else if (window.orientation == 0 || window.orientation == 180) {
-		            	//ipad、iphone横屏；Andriod竖屏
-		            	if(me.isAndroid())	
-		            		orientation = 'portrait';
-		            	if(me.isIos())
+		            	//ipad、iphoneAndriod竖屏
+		            	if(me.isAndroid()||me.isIos())	
 		            		orientation = 'portrait';
 		            }
 	           	// console.log(orientation);
 	           	if(orientation ==='landscape'){
 	           		me.element.addClass("landscape").removeClass('portrait');
-	           		me.element.css("transform","rotate(0deg)");
+	           		me.element.css("transform","rotate(0deg)");	
+	           		if(viewportmeta){
+	           			viewportmeta.content = 'width=1200,user-scalable=yes';
+	           		}           		
 	           	}else if((orientation ==='portrait' )|| me.force){
 	           		me.element.addClass("portrait").removeClass('landscape');
 	           		var mtransform = "rotate(90deg) scale("+me.scale+","+me.scale+")";
 	           		var mtransition = "all "+ me.settings.animationtime+" ease "+me.settings.animationdelay;
+	           		if(viewportmeta){
+	           			viewportmeta.content = 'width=device-width, minimum-scale=0.2, maximum-scale=1.0, initial-scale=0.4';
+	           		}
 	           		me.element.css("transform-origin","350px 450px").css("transform",mtransform).css("transition",mtransition);
 	           	}
 
